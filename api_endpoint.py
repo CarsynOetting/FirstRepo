@@ -36,4 +36,16 @@ while True:
     un = urllib.request.urlopen(url, context=ctx)
     data = un.read().decode()
 
-    print(data)
+    try:
+        js = json.loads(data)
+    except:
+        js = None
+
+    if not js or 'status' not in js or js['status'] != 'OK':
+        print('==== Failure To Retrieve ====')
+        print(data)
+        continue
+
+    place = js['results'][0]['place_id']
+
+    print(place)
